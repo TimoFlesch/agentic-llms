@@ -15,9 +15,16 @@ class WikipediaSummary(ToolABC):
         "There can be multiple results. "
     )
 
-    def __init__(self, max_results: int = 5, language: str = "en", **kwargs):
+    def __init__(
+        self,
+        max_results: int = 5,
+        max_words: int = 200,
+        language: str = "en",
+        **kwargs,
+    ):
         wikipedia.set_lang(language)
         self.max_results = max_results
+        self.max_words = max_words
         self.wikipedia_client = wikipedia
 
     def __call__(self, query: str) -> str:
@@ -31,10 +38,14 @@ class WikipediaSummary(ToolABC):
                     )
                     result_dict = {
                         "title": result,
-                        "summary": content_page.summary,
+                        "summary": content_page.summary[: self.max_words],
                         "source": content_page.url,
                     }
-                    pages.append(str(result_dict))
+                    pages.append(
+                        "\n".join(
+                            [f"{k}: {v}" for k, v in result_dict.items()]
+                        )
+                    )
 
                 except (
                     self.wiki_client.exceptions.PageError,
