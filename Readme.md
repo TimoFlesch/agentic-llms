@@ -124,28 +124,6 @@ Observation: {'title': 'Fibonacci sequence - Wikipedia', 'answer': 'A tiling wit
  But often, its line of reasoning isn't particularly sound (which might have something to do with the short context window of locally hosted models):
  ```
  
-Today is 2024-01-16 and you can use tools to get new information.
-Answer the question as best as you can using the following tools: 
-
-DDG Search: Get information for a search query. Input should be either a question like 'Who was Tolstoy?', or a single word like 'Tolstoy'. Result will be the answers to the question. There can be multiple results. 
-Linux Shell: A Linux Shell. Use this to execute Linux commands. Input should be valid Linux commands. Chain several commands together with semicolon. Missing packages can be installed with `apk add ...` 
-Python Interpreter: A Python interpreter. Use this to execute python code. Input should be valid python code. If you want to see the output of a value, you should print it out with `print(...)`
-Wikipedia: Get information from an encyclopedia to answer a search query. Input should be a search query such as 'Who was Marie Curie?'. Result will be a detailed answer to the question. There can be multiple results. 
-
-
-Use the following format:
-
-Question: the input question you must answer
-Thought: comment on what you want to do next
-Action: the action to take, exactly one element of [DuckDuckGo Search, Linux Shell, Python Interpreter, Wikipedia]
-Action Input: the input to the action
-Observation: the result of the action
-... (this Thought/Action/Action Input/Observation repeats N times, 
-use it until you are sure of the answer)
-Thought: I now know the final answer
-Final Answer: your final answer to the original input question
-
-Begin!
 
 Question: Use Wikipedia to tell me where and when Alan Turing was born
 Thought: 
