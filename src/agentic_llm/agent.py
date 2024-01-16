@@ -17,6 +17,7 @@ def get_default_cfg() -> dict:
     return {
         "agent_config": {
             "max_iter": 5,
+            "verbose": False,
             "system_prompt": """
 Today is {today} and you can use tools to get new information.
 Answer the question as best as you can using the following tools:
@@ -129,7 +130,8 @@ class LLMAgent:
             question=prompt,
             previous_responses="{previous_responses}",
         )
-        print(system_prompt.format(previous_responses=""))
+        if self.verbose:
+            print(system_prompt.format(previous_responses=""))
         n_iter = 0
         while n_iter < self.max_iter:
             n_iter += 1
@@ -137,8 +139,11 @@ class LLMAgent:
                 previous_responses="\n".join(prompt_history)
             )
             response = self.llm.generate(this_prompt)
-
-            action, action_value = self._parse_response(response)
+            try:
+                action, action_value = self._parse_response(response)
+            except ValueError:
+                self._shutdown_docker()
+                return response
             if action == "Final Answer:":
                 self._shutdown_docker()
                 return response
@@ -147,7 +152,7 @@ class LLMAgent:
             ), f"LLM requested tool that is not available: {action}"
             # consult tool:
             result = self.tools[action](action_value)
-            response += f"\nObservation: {result}\n Thought:"
+            response += f"\nObservation: {result}\nThought:"
             print(response)
             prompt_history.append(response)
         # shutdown and remove containers
