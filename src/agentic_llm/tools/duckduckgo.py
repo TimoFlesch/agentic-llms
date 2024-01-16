@@ -40,7 +40,9 @@ class DDGSearch(ToolABC):
                 if self.add_url:
                     answer_dict["source"] = answer[0]["url"]
                 answer_dict["answer"] = answer[0]["text"]
-                return str(answer_dict).replace('"', "'")
+                return "\n ".join(
+                    [f"{k}: {v}" for k, v in answer_dict.items()]
+                )
             else:
                 # fall back to normal search
                 answers = []
@@ -59,5 +61,9 @@ class DDGSearch(ToolABC):
                         answer_dict["source"] = answer["href"]
                     answer_dict["answer"] = answer["body"]
 
-                    answers.append(str(answer_dict).replace('"', "'"))
+                    answers.append(
+                        "\n".join(
+                            [f"{k}: {v}" for k, v in answer_dict.items()]
+                        )
+                    )
                 return "\n".join(answers)
