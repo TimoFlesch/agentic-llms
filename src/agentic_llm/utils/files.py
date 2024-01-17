@@ -1,7 +1,8 @@
 import json
-import toml
 import typing
 from pathlib import Path
+
+import toml
 
 
 def load_json(file_path: typing.Union[str, Path]) -> dict:
