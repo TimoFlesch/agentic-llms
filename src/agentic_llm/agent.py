@@ -11,6 +11,7 @@ from agentic_llm.tools import (
     PythonInterpreter,
     WikipediaSummary,
 )
+from agentic_llm.utils.docker import DockerInterface
 
 
 def get_default_cfg() -> dict:
@@ -121,6 +122,7 @@ class LLMAgent:
         self._tool_names = ", ".join(list(self.tools.keys()))
 
     def answer(self, prompt: str) -> str:
+        self._start_docker_container()
         prompt_history = []
 
         system_prompt = self.system_prompt.format(
@@ -142,10 +144,10 @@ class LLMAgent:
             try:
                 action, action_value = self._parse_response(response)
             except ValueError:
-                self._shutdown_docker()
+                self._stop_docker_container()
                 return response
             if action == "Final Answer:":
-                self._shutdown_docker()
+                self._stop_docker_container()
                 return response
             assert action in list(
                 self.tools.keys()
@@ -156,7 +158,7 @@ class LLMAgent:
             print(response)
             prompt_history.append(response)
         # shutdown and remove containers
-        self._shutdown_docker()
+        self._stop_docker_container()
         return response
 
     def _parse_response(self, response: str) -> typing.Tuple[str, str]:
@@ -173,12 +175,12 @@ class LLMAgent:
         action_value = match.group(2)
         return action, action_value.strip(" ").strip('"').replace("`", "")
 
-    def _shutdown_docker(self):
-        python_repl = self.tools.get("Python Interpreter", None)
-        if python_repl is not None:
-            python_repl.backend.stop()
-            python_repl.backend.remove()
-        linux_shell = self.tools.get("Linux Shell", None)
-        if linux_shell is not None:
-            linux_shell.backend.stop()
-            linux_shell.backend.remove()
+    def _start_docker_container(self):
+        for tool in self.tools.values():
+            if isinstance(getattr(tool, "backend", None), DockerInterface):
+                tool.backend.start()
+
+    def _stop_docker_container(self):
+        for tool in self.tools.values():
+            if isinstance(getattr(tool, "backend", None), DockerInterface):
+                tool.backend.stop()

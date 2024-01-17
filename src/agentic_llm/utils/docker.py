@@ -23,7 +23,11 @@ class DockerInterface:
         self.container_name = container_name
         self.persistent_container = persistent_container
 
-        self.client = docker.from_env()
+        try:
+            self.client = docker.from_env()
+        except docker.errors.DockerException:
+            print("make sure that the Docker engine is running!")
+            raise
 
         try:
             self.client.images.get(self.image_name)
