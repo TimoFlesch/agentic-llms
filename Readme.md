@@ -52,7 +52,7 @@ After it was provided with a `Question`, the agent's LLM generates pairs of `Act
 ### Installation Instructions
 1. Install [Docker](docker.com) . Make sure that you've got a working version of docker running in the background!
 2. Download Mistral-7B from the following link https://gpt4all.io/models/gguf/mistral-7b-instruct-v0.1.Q4_0.gguf and put it in the `./models/` subfolder
-3. Make a copy of `configs/default_config.json` and update the model_path so that it points to the folder containing Mistral-7B (e.g. `/home/USER/code/agentic-llm/models`)
+3. Make a copy of `configs/default_config.toml` and update the model_path so that it points to the folder containing Mistral-7B (e.g. `/home/USER/code/agentic-llm/models`)
 4. From within the project folder,  run `pip install -e .` to install the package
 5. in your CLI, run `agentic_llm --help` to make sure that everything works. You should see the following output:
 
@@ -63,7 +63,7 @@ Usage: agentic_llm [OPTIONS]
 
 Options:
   --config_path TEXT  path to config file, e.g. /home/USER/code/agentic-
-                      llm/configs/default_config.json. Uses default config if
+                      llm/configs/default_config.toml. Uses default config if
                       left empty
   --query TEXT        A question for the agent
   --help              Show this message and exit.
@@ -73,7 +73,7 @@ Options:
 Example usage is detailed in `notebooks/example.ipynb`. Alternatively, you can use the command-line interface as follows:
 
 ```
-$ agentic_llm --config_path ${PATH_TO_CONFIG_DIR}/default_config.json
+$ agentic_llm --config_path ${PATH_TO_CONFIG_DIR}/default_config.toml
 Your Query: <ENTER YOUR QUERY HERE>
 ```
 

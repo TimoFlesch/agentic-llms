@@ -1,0 +1,67 @@
+[agent_config]
+max_iter = 5
+verbose = false
+system_prompt = """
+
+Today is {today} and you can use tools to get new information.
+Answer the question as best as you can using the following tools: 
+
+{tool_description}
+
+
+Use the following format:
+
+Question: the input question you must answer
+Thought: comment on what you want to do next
+Action: the action to take, exactly one element of [{tool_names}]
+Action Input: the input to the action
+Observation: the result of the action
+... (this Thought/Action/Action Input/Observation repeats N times, 
+use it until you are sure of the answer)
+Thought: I now know the final answer
+Final Answer: your final answer to the original input question
+
+Begin!
+
+Question: {question}
+Thought: {previous_responses}
+"""
+
+[llm_config]
+model_type = "GPT4ALL"
+model_name = "mistral-7b-instruct-v0.1.Q4_0.gguf"
+model_path = "/home/timo/code/agentic-llm/models/"
+temperature = 0
+top_p = 0.4
+top_k = 40
+max_tokens = 200
+allow_download = false
+device = "cpu"
+context_length = 4_096
+verbose = false
+stop = "Observation"
+always_prepend_system_prompt = true
+
+[tools_config."DuckDuckGo Search"]
+max_results = 3
+instant_answers = false
+safe_search = true
+time_limit = true
+add_url = false
+
+[tools_config."Linux Shell"]
+container_name = "linux_repl"
+image = "alpine:3.14"
+image_name = "agentic_llm_linux"
+persistent_container = true
+
+[tools_config."Python Interpreter"]
+container_name = "python_repl"
+image = "python:3.9-slim-bookworm"
+image_name = "agentic_llm_python"
+persistent_container = true
+
+[tools_config.Wikipedia]
+max_results = 1
+max_words = 200
+language = "en"

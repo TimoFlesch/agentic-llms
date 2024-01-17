@@ -1,7 +1,7 @@
 import click
 
 from agentic_llm.agent import LLMAgent
-from agentic_llm.utils.config import load_config
+from agentic_llm.utils.files import load_config
 
 
 @click.command()
@@ -10,7 +10,7 @@ from agentic_llm.utils.config import load_config
     default=None,
     help=(
         "path to config file, e.g. "
-        "/home/USER/code/agentic-llm/configs/default_config.json. "
+        "/home/USER/code/agentic-llm/configs/default_config.toml. "
         "Uses default config if left empty"
     ),
 )
