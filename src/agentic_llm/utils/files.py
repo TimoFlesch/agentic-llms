@@ -33,10 +33,9 @@ def save_toml(file: typing.Dict, file_path: typing.Union[str, Path]):
 
 
 def load_config(
-    config_name: str = "default_config.toml",
-    config_dir: str = "./configs/",
+    file_path: typing.Union[str, Path],
 ) -> dict:
-    file_path = Path(config_dir) / config_name
+    file_path = Path(file_path)
     if file_path.suffix == ".json":
         cfg = load_json(file_path)
     elif file_path.suffix == ".toml":
