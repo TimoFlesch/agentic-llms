@@ -1,7 +1,7 @@
 import click
 
 from agentic_llm.agent import LLMAgent
-from agentic_llm.utils.config import load_config
+from agentic_llm.utils.files import load_config
 
 
 @click.command()
