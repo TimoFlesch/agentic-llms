@@ -48,20 +48,24 @@ instant_answers = false
 safe_search = true
 time_limit = true
 add_url = false
+confirm_action = false
 
 [tools_config."Linux Shell"]
 container_name = "linux_repl"
 image = "alpine:3.14"
 image_name = "agentic_llm_linux"
 persistent_container = true
+confirm_action = true
 
 [tools_config."Python Interpreter"]
 container_name = "python_repl"
 image = "python:3.9-slim-bookworm"
 image_name = "agentic_llm_python"
 persistent_container = true
+confirm_action = true
 
 [tools_config.Wikipedia]
 max_results = 1
 max_words = 200
 language = "en"
+confirm_action = false

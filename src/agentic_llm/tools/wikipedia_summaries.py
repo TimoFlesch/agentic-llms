@@ -22,6 +22,7 @@ class WikipediaSummary(ToolABC):
         language: str = "en",
         **kwargs,
     ):
+        super().__init__(**kwargs)
         wikipedia.set_lang(language)
         self.max_results = max_results
         self.max_words = max_words
