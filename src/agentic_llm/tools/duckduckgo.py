@@ -22,6 +22,7 @@ class DDGSearch(ToolABC):
         add_url: bool = False,
         **kwargs,
     ):
+        super().__init__(**kwargs)
         self.max_results = max_results
         self.instant_answers = instant_answers
         self.safe_search = "on" if safe_search else "off"

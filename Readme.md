@@ -16,7 +16,8 @@ The following tools have been implemented:
 
 
 ### Safety 
-The Toolbox executes Python and Linux commands received from the LLM inside Docker containers that are created and managed on the fly. Containers can be configured to be either persistent (active throughout session) or not (stopped after command execution).
+The Toolbox executes Python and Linux commands received from the LLM inside Docker containers that are created and managed on the fly. Containers can be configured to be either persistent (active throughout session) or not (stopped after command execution).  
+Each tool has a "confirm_action" attribute. If set to true, the user will be asked to approve the action proposed by the agent before it is executed.
 
 
 ### How it works 

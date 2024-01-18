@@ -19,6 +19,7 @@ class LinuxShell(ToolABC):
         persistent_container: bool = True,
         **kwargs,
     ):
+        super().__init__(**kwargs)
         self.backend = DockerInterface(
             container_name=container_name,
             image=image,

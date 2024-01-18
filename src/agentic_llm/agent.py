@@ -67,22 +67,27 @@ Thought: {previous_responses}
                 "safe_search": True,
                 "time_limit": True,
                 "add_url": False,
+                "confirm_action": False,
             },
             "Linux Shell": {
                 "container_name": "linux_repl",
                 "image": "alpine:3.14",
                 "image_name": "agentic_llm_linux",
                 "persistent_container": True,
+                "confirm_action": True,
             },
             "Python Interpreter": {
                 "container_name": "python_repl",
                 "image": "python:3.9-slim-bookworm",
                 "image_name": "agentic_llm_python",
                 "persistent_container": True,
+                "confirm_action": True,
             },
             "Wikipedia": {
                 "max_results": 1,
+                "max_words": 200,
                 "language": "en",
+                "confirm_action": False,
             },
         },
     }
@@ -152,6 +157,20 @@ class LLMAgent:
             assert action in list(
                 self.tools.keys()
             ), f"LLM requested tool that is not available: {action}"
+            if self.tools[action].confirm_action:
+                print(
+                    f"Agent is attempting to call {action}"
+                    f" with the following input: {action_value}"
+                )
+                confirmation = input("Do you want to proceed? (y/[n])")
+                if confirmation.lower() in ["y", "yes"]:
+                    pass
+                elif confirmation.lower() in ["n", "no", ""]:
+                    self._stop_docker_container()
+                    return "Mission aborted."
+                else:
+                    raise ValueError
+
             # consult tool:
             result = self.tools[action](action_value)
             response += f"\nObservation: {result}\nThought:"
